@@ -5,7 +5,7 @@
                 {
                         "Operateur": [
                                 {
-                                        "Auto": false,
+                                        "Auto": true,
                                         "PK": true,
                                         "FieldName": "id_operateur",
                                         "FieldType": "INTEGER",

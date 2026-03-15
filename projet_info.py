@@ -1,4 +1,4 @@
-# Module généré par GenDB.py
+# Module gï¿½nï¿½rï¿½ par GenDB.py
 #===========================
 import sqlite3
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel
@@ -261,11 +261,11 @@ def insert_Commande(prix,date):
 	conn.close()
 
 # INSERT INTO Operateur
-def insert_Operateur(id_operateur,nom,mail):
+def insert_Operateur(nom,mail):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
-	sqlQuery="INSERT OR IGNORE INTO Operateur (id_operateur,nom,mail) "
-	sqlQuery+=f"VALUES ({id_operateur},'{nom}','{mail}')"
+	sqlQuery="INSERT OR IGNORE INTO Operateur (nom,mail) "
+	sqlQuery+=f"VALUES ('{nom}','{mail}')"
 	cur.execute(sqlQuery)
 	conn.commit()
 	conn.close()
@@ -503,7 +503,7 @@ def update_Planification(id_planification,id_commande,id_produit,moment_utilisat
 	conn.close()
 
 # DELETE FROM Produit WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Produit(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -515,7 +515,7 @@ def delete_Produit(WHERE):
 	conn.close()
 
 # DELETE FROM Electricite WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Electricite(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -527,7 +527,7 @@ def delete_Electricite(WHERE):
 	conn.close()
 
 # DELETE FROM Commande WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Commande(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -539,7 +539,7 @@ def delete_Commande(WHERE):
 	conn.close()
 
 # DELETE FROM Operateur WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Operateur(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -551,7 +551,7 @@ def delete_Operateur(WHERE):
 	conn.close()
 
 # DELETE FROM Machine WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Machine(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -563,7 +563,7 @@ def delete_Machine(WHERE):
 	conn.close()
 
 # DELETE FROM Consommation WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Consommation(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -575,7 +575,7 @@ def delete_Consommation(WHERE):
 	conn.close()
 
 # DELETE FROM Process WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Process(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -587,7 +587,7 @@ def delete_Process(WHERE):
 	conn.close()
 
 # DELETE FROM Planification WHERE condition 
-# ATTENTION : Si pas de condition ("") efface toutes les données de la table !!!
+# ATTENTION : Si pas de condition ("") efface toutes les donnï¿½es de la table !!!
 def delete_Planification(WHERE):
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -599,7 +599,7 @@ def delete_Planification(WHERE):
 	conn.close()
 
 # DROP TABLE Produit
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Produit():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -609,7 +609,7 @@ def drop_Produit():
 	conn.close()
 
 # DROP TABLE Electricite
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Electricite():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -619,7 +619,7 @@ def drop_Electricite():
 	conn.close()
 
 # DROP TABLE Commande
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Commande():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -629,7 +629,7 @@ def drop_Commande():
 	conn.close()
 
 # DROP TABLE Operateur
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Operateur():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -639,7 +639,7 @@ def drop_Operateur():
 	conn.close()
 
 # DROP TABLE Machine
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Machine():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -649,7 +649,7 @@ def drop_Machine():
 	conn.close()
 
 # DROP TABLE Consommation
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Consommation():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -659,7 +659,7 @@ def drop_Consommation():
 	conn.close()
 
 # DROP TABLE Process
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Process():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
@@ -669,7 +669,7 @@ def drop_Process():
 	conn.close()
 
 # DROP TABLE Planification
-# ATTENTION : cette fonction détruit la table, elle devra (éventuellement) être recréée
+# ATTENTION : cette fonction dï¿½truit la table, elle devra (ï¿½ventuellement) ï¿½tre recrï¿½ï¿½e
 def drop_Planification():
 	conn = sqlite3.connect("projet_info.db")
 	cur = conn.cursor()
