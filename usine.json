@@ -1,6 +1,6 @@
 {
         "driver": "QSQLITE",
-        "name": "projet_info",
+        "name": "usine",
         "tables": [
                 {
                         "Operateur": [
@@ -11,7 +11,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -22,7 +22,7 @@
                                         "FieldType": "TEXT",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -32,8 +32,8 @@
                                         "FieldName": "mail",
                                         "FieldType": "TEXT",
                                         "FieldLength": "",
-                                        "Unique": false,
-                                        "NotNull": false,
+                                        "Unique": true,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -125,7 +125,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -136,7 +136,7 @@
                                         "FieldType": "TEXT",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -147,7 +147,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -158,7 +158,7 @@
                                         "FieldType": "REAL",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -169,7 +169,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Operateur",
                                         "FKField": "id_operateur"
                                 },
@@ -239,7 +239,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -250,7 +250,7 @@
                                         "FieldType": "TEXT",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -353,7 +353,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -364,7 +364,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Machine",
                                         "FKField": "id_machine"
                                 },
@@ -375,7 +375,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Produit",
                                         "FKField": "id_produit"
                                 },
@@ -386,7 +386,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -467,7 +467,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -478,7 +478,7 @@
                                         "FieldType": "REAL",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -489,7 +489,7 @@
                                         "FieldType": "DATE",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -581,7 +581,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -592,7 +592,7 @@
                                         "FieldType": "DATE",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -603,7 +603,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -614,7 +614,7 @@
                                         "FieldType": "REAL",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -625,7 +625,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -695,7 +695,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -706,7 +706,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Commande",
                                         "FKField": "id_commande"
                                 },
@@ -717,7 +717,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Produit",
                                         "FKField": "id_produit"
                                 },
@@ -728,7 +728,7 @@
                                         "FieldType": "DATETIME",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -809,7 +809,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -820,7 +820,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Commande",
                                         "FKField": "id_commande"
                                 },
@@ -831,7 +831,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "Electricite",
                                         "FKField": "id_electricite"
                                 },
