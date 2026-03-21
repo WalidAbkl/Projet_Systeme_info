@@ -16,10 +16,10 @@
   <widget class="QTabWidget" name="Commande">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>671</width>
-     <height>651</height>
+     <x>9</x>
+     <y>9</y>
+     <width>679</width>
+     <height>653</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -27,320 +27,209 @@
    </property>
    <widget class="QWidget" name="Configuration">
     <attribute name="title">
-     <string>Tab 1</string>
+     <string>Configuration</string>
     </attribute>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>9</y>
-       <width>33</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Nom :</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>36</y>
-       <width>35</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Email :</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_nom">
-     <property name="geometry">
-      <rect>
-       <x>118</x>
-       <y>9</y>
-       <width>132</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_mail">
-     <property name="geometry">
-      <rect>
-       <x>118</x>
-       <y>36</y>
-       <width>132</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_add_operateur">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>63</y>
-       <width>103</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Ajouter opérateur</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_1">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>93</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Nom machine :</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>120</y>
-       <width>58</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Puissance :</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_nom_machine">
-     <property name="geometry">
-      <rect>
-       <x>118</x>
-       <y>93</y>
-       <width>132</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_puissance">
-     <property name="geometry">
-      <rect>
-       <x>118</x>
-       <y>120</y>
-       <width>132</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>147</y>
-       <width>68</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Durée cycle :</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_duree">
-     <property name="geometry">
-      <rect>
-       <x>118</x>
-       <y>147</y>
-       <width>132</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>174</y>
-       <width>60</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Operateur :</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_add_machine">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>201</y>
-       <width>95</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Ajouter machine</string>
-     </property>
-    </widget>
-    <widget class="QTableView" name="tableView_machines">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>231</y>
-       <width>521</width>
-       <height>192</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox_operateur">
-     <property name="geometry">
-      <rect>
-       <x>118</x>
-       <y>174</y>
-       <width>68</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Nom :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_nom"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Email :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_mail"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_add_operateur">
+       <property name="text">
+        <string>Ajouter opérateur</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_1">
+       <property name="text">
+        <string>Nom machine :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_nom_machine"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Puissance :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_puissance"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Durée cycle :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_duree"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Operateur :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_operateur"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_add_machine">
+       <property name="text">
+        <string>Ajouter machine</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableView" name="tableView_machines"/>
+     </item>
+    </layout>
    </widget>
    <widget class="QWidget" name="Process_produit">
     <attribute name="title">
-     <string>Tab 2</string>
+     <string>Produits et Process</string>
     </attribute>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>621</width>
-       <height>661</height>
-      </rect>
-     </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Nom Produit :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_nom_produit"/>
-      </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButton_add_produit">
-        <property name="text">
-         <string>Ajouter Produit</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QTableView" name="tableView_produits"/>
-      </item>
-      <item row="8" column="0" colspan="2">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Produits :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="QComboBox" name="comboBox_produit"/>
-      </item>
-      <item row="11" column="0" colspan="2">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Machine :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1">
-       <widget class="QComboBox" name="comboBox_machine_process"/>
-      </item>
-      <item row="14" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Ordre :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1">
-       <widget class="QSpinBox" name="spinBox_ordre"/>
-      </item>
-      <item row="16" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButton_add_process">
-        <property name="text">
-         <string>Ajouter étape</string>
-        </property>
-       </widget>
-      </item>
-      <item row="18" column="0" colspan="2">
-       <widget class="QTableView" name="tableView_process"/>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Nom Produit :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_add_produit">
+         <property name="text">
+          <string>Ajouter Produit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QTableView" name="tableView_produits"/>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Produits :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Machine :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Ordre :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1">
+        <widget class="QSpinBox" name="spinBox_ordre"/>
+       </item>
+       <item row="16" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_add_process">
+         <property name="text">
+          <string>Ajouter étape</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0" colspan="2">
+        <widget class="QTableView" name="tableView_process"/>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_nom_produit"/>
+       </item>
+       <item row="9" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_produit"/>
+       </item>
+       <item row="12" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_machine_process"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
    <widget class="QWidget" name="Electricite">
     <attribute name="title">
-     <string>Page</string>
+     <string>Commandes</string>
     </attribute>
-    <widget class="QWidget" name="">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>258</width>
-       <height>364</height>
-      </rect>
-     </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Produit : </string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox_produit_commande"/>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Heure de départ :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QTimeEdit" name="timeEdit_depart"/>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButton_calculer">
-        <property name="text">
-         <string>Calculer le coût</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QLabel" name="label_cout_result">
-        <property name="text">
-         <string>Coût estimé :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButton_valider_commande">
-        <property name="text">
-         <string>Valider la commande</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0" colspan="2">
-       <widget class="QTableWidget" name="tableWidget_commandes"/>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Produit : </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_produit_commande"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Heure de départ :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTimeEdit" name="timeEdit_depart"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_calculer">
+       <property name="text">
+        <string>Calculer le coût</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Coût estimé :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_valider_commande">
+       <property name="text">
+        <string>Valider la commande</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="tableWidget_commandes"/>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
