@@ -3,12 +3,21 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtSql import QSqlQueryModel
 import sys
 import usine
-
+import mail
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("interface_projet.ui", self)
+
+        self.resize(900, 700)
+        self.tableView_machines.horizontalHeader().setStretchLastSection(True)
+        self.tableView_produits.horizontalHeader().setStretchLastSection(True)
+        self.tableView_process.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget_commandes.horizontalHeader().setStretchLastSection(True)
+
+        # Liste temporaire des produits ajoutés à la commande en cours
+        self.commande_en_cours = []
 
         # --- Tab 1 : Configuration ---
         self.pushButton_add_operateur.clicked.connect(self.add_operateur)
@@ -21,6 +30,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # --- Tab 3 : Commandes ---
         self.pushButton_calculer.clicked.connect(self.calculer_cout)
+        self.pushButton_ajouter_produit_commande.clicked.connect(self.ajouter_produit_commande)
         self.pushButton_valider_commande.clicked.connect(self.valider_commande)
 
         self.setup_database()
@@ -46,12 +56,10 @@ class MainWindow(QtWidgets.QMainWindow):
             raise RuntimeError("Impossible d'ouvrir la base de données")
 
     def setup_models(self):
-        # Modèle Table Machines (Tab 1)
         self.machines_model = QtSql.QSqlRelationalTableModel(self, self.db)
         self.machines_model.setTable("Machine")
         self.tableView_machines.setModel(self.machines_model)
 
-        # Modèle Table Produits (Tab 2)
         self.produits_model = QtSql.QSqlRelationalTableModel(self, self.db)
         self.produits_model.setTable("Produit")
         self.tableView_produits.setModel(self.produits_model)
@@ -81,15 +89,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def add_operateur(self):
         nom = self.lineEdit_nom.text().strip()
-        mail = self.lineEdit_mail.text().strip()
+        email = self.lineEdit_mail.text().strip()
 
-        if not nom or not mail:
+        if not nom or not email:
             QtWidgets.QMessageBox.warning(
                 self, "Champs manquants", "Veuillez remplir le nom et l'email."
             )
             return
 
-        usine.insert_Operateur(nom, mail)
+        usine.insert_Operateur(nom, email)
         self.lineEdit_nom.clear()
         self.lineEdit_mail.clear()
         self.load_operateurs_combo()
@@ -210,23 +218,19 @@ class MainWindow(QtWidgets.QMainWindow):
     # TAB 3 : COMMANDES
     # -------------------------------------------------------
     def load_produits_commande_combo(self):
-        """Charge les produits dans le comboBox de l'onglet Commandes."""
         self.comboBox_produit_commande.clear()
         produits = usine.select_Produit("")
         for p in produits:
             self.comboBox_produit_commande.addItem(p[1], p[0])
 
     def setup_commandes_table(self):
-        """Initialise le tableau des commandes avec les bonnes colonnes."""
         self.tableWidget_commandes.setColumnCount(4)
         self.tableWidget_commandes.setHorizontalHeaderLabels(
             ["Produit", "Heure départ", "Coût estimé (€)", "Statut"]
         )
         self.tableWidget_commandes.horizontalHeader().setStretchLastSection(True)
-        self.load_commandes_table()
 
     def calculer_cout(self):
-        """Calcule le coût de production du produit à l'heure choisie."""
         id_produit = self.comboBox_produit_commande.currentData()
         heure_depart = self.timeEdit_depart.time().hour()
 
@@ -236,7 +240,6 @@ class MainWindow(QtWidgets.QMainWindow):
             )
             return
 
-        # Récupérer le prix de l'électricité à l'heure choisie
         prix_elec = self.get_prix_electricite(heure_depart)
 
         if prix_elec is None:
@@ -247,14 +250,10 @@ class MainWindow(QtWidgets.QMainWindow):
             )
             return
 
-        # Calculer le coût total du process pour ce produit
         cout_total = self.calculer_cout_process(id_produit, prix_elec)
-
-        # Afficher le résultat dans le label
         self.label_cout_result.setText(f"Coût estimé : {cout_total:.4f} €")
 
     def get_prix_electricite(self, heure):
-        """Récupère le prix de l'électricité en €/MWh pour une heure donnée."""
         from datetime import date
         aujourd_hui = date.today().strftime("%Y-%m-%d")
 
@@ -273,11 +272,6 @@ class MainWindow(QtWidgets.QMainWindow):
         return None
 
     def calculer_cout_process(self, id_produit, prix_elec_mwh):
-        """
-        Calcule le coût total du process pour un produit.
-        Formule : (puissance_W / 1000) * (duree_min / 60) * (prix_€/MWh / 1000)
-        = coût en €
-        """
         query = QtSql.QSqlQuery(self.db)
         query.prepare("""
             SELECT m.puissance, m.duree_cycle
@@ -290,17 +284,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         cout_total = 0.0
         while query.next():
-            puissance_w = query.value(0)    # en Watts
-            duree_min = query.value(1)       # en minutes
-            # Convertir : W -> kW, min -> h, €/MWh -> €/kWh
+            puissance_w = query.value(0)
+            duree_min = query.value(1)
             energie_kwh = (puissance_w / 1000) * (duree_min / 60)
             prix_kwh = prix_elec_mwh / 1000
             cout_total += energie_kwh * prix_kwh
 
         return cout_total
 
-    def valider_commande(self):
-        """Valide la commande et l'enregistre dans la DB et le tableau."""
+    def ajouter_produit_commande(self):
+        """Ajoute un produit à la commande en cours sans valider."""
         id_produit = self.comboBox_produit_commande.currentData()
         nom_produit = self.comboBox_produit_commande.currentText()
         heure_depart = self.timeEdit_depart.time().toString("HH:mm")
@@ -314,17 +307,20 @@ class MainWindow(QtWidgets.QMainWindow):
 
         prix_elec = self.get_prix_electricite(heure_int)
         if prix_elec is None:
-            cout_str = "N/A"
             cout_val = 0.0
+            cout_str = "N/A"
         else:
             cout_val = self.calculer_cout_process(id_produit, prix_elec)
             cout_str = f"{cout_val:.4f} €"
 
-        # Enregistrer dans la DB
-        from datetime import date
-        aujourd_hui = date.today().strftime("%Y-%m-%d")
-        heure_complete = f"{aujourd_hui} {heure_depart}:00"
-        usine.insert_Planification(id_produit, 1, heure_complete)
+        # Ajouter à la liste temporaire
+        self.commande_en_cours.append({
+            "id_produit": id_produit,
+            "nom": nom_produit,
+            "heure": heure_depart,
+            "cout": cout_val,
+            "cout_str": cout_str
+        })
 
         # Ajouter dans le tableau
         row = self.tableWidget_commandes.rowCount()
@@ -332,31 +328,58 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tableWidget_commandes.setItem(row, 0, QtWidgets.QTableWidgetItem(nom_produit))
         self.tableWidget_commandes.setItem(row, 1, QtWidgets.QTableWidgetItem(heure_depart))
         self.tableWidget_commandes.setItem(row, 2, QtWidgets.QTableWidgetItem(cout_str))
-        self.tableWidget_commandes.setItem(row, 3, QtWidgets.QTableWidgetItem("✅ Validé"))
+        self.tableWidget_commandes.setItem(row, 3, QtWidgets.QTableWidgetItem("⏳ En attente"))
+
+        # Mettre à jour le prix total
+        self.update_prix_total()
+
+    def update_prix_total(self):
+        """Met à jour le label prix total."""
+        total = sum(p["cout"] for p in self.commande_en_cours)
+        self.label_cout_total.setText(f"Prix total : {total:.4f} €")
+
+    def valider_commande(self):
+        """Valide toute la commande et enregistre en DB."""
+        if not self.commande_en_cours:
+            QtWidgets.QMessageBox.warning(
+                self, "Commande vide",
+                "Ajoutez d'abord des produits à la commande."
+            )
+            return
+
+        from datetime import date
+        aujourd_hui = date.today().strftime("%Y-%m-%d")
+
+        # Créer la commande en DB
+        total = sum(p["cout"] for p in self.commande_en_cours)
+        usine.insert_Commande(total, aujourd_hui)
+
+        # Récupérer l'id de la commande créée
+        commandes = usine.select_Commande("")
+        id_commande = commandes[-1][0]
+
+        # Enregistrer chaque produit dans la planification
+        for produit in self.commande_en_cours:
+            heure_complete = f"{aujourd_hui} {produit['heure']}:00"
+            usine.insert_Planification(produit["id_produit"], id_commande, heure_complete)
+
+        # Mettre à jour le statut dans le tableau
+        for row in range(self.tableWidget_commandes.rowCount()):
+            self.tableWidget_commandes.setItem(
+                row, 3, QtWidgets.QTableWidgetItem("✅ Validé")
+            )
 
         QtWidgets.QMessageBox.information(
             self, "Commande validée",
-            f"Commande pour '{nom_produit}' à {heure_depart} enregistrée !\nCoût estimé : {cout_str}"
+            f"Commande validée avec {len(self.commande_en_cours)} produit(s) !\n"
+            f"Prix total : {total:.4f} €"
         )
-
-    def load_commandes_table(self):
-        """Charge les commandes existantes depuis la DB."""
-        query = QtSql.QSqlQuery(self.db)
-        query.exec("""
-            SELECT pr.nom, pl.heure_debut
-            FROM Planification pl
-            JOIN Produit pr ON pl.id_produit = pr.id_produit
-            ORDER BY pl.heure_debut
-        """)
-
-        self.tableWidget_commandes.setRowCount(0)
-        while query.next():
-            row = self.tableWidget_commandes.rowCount()
-            self.tableWidget_commandes.insertRow(row)
-            self.tableWidget_commandes.setItem(row, 0, QtWidgets.QTableWidgetItem(query.value(0)))
-            self.tableWidget_commandes.setItem(row, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
-            self.tableWidget_commandes.setItem(row, 2, QtWidgets.QTableWidgetItem("N/A"))
-            self.tableWidget_commandes.setItem(row, 3, QtWidgets.QTableWidgetItem("✅ Validé"))
+        
+        nb = mail.envoyer_mails_commande(self.db, self.commande_en_cours)
+        QtWidgets.QMessageBox.information(
+        self, "Mails envoyés", f"{nb} mail(s) envoyé(s) aux opérateurs !")
+        # Vider la commande en cours
+        self.commande_en_cours = []
 
     # -------------------------------------------------------
     # FERMETURE

@@ -16,10 +16,10 @@
   <widget class="QTabWidget" name="Commande">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>679</width>
-     <height>653</height>
+     <x>0</x>
+     <y>0</y>
+     <width>691</width>
+     <height>722</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -213,9 +213,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_12">
+      <widget class="QLabel" name="label_cout_result">
        <property name="text">
         <string>Coût estimé :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_ajouter_produit_commande">
+       <property name="text">
+        <string>Ajouter à la commande</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_cout_total">
+       <property name="text">
+        <string>Prix total :</string>
        </property>
       </widget>
      </item>
