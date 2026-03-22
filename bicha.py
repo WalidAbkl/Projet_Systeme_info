@@ -2,7 +2,7 @@ import usine
 
 usine.createAllTables()
 
-#vider les tables avant test
+# Vider les tables avant test (ordre important à cause des clés étrangères)
 usine.delete_Consommation("")
 usine.delete_Planification("")
 usine.delete_Process("")
@@ -12,52 +12,68 @@ usine.delete_Electricite("")
 usine.delete_Produit("")
 usine.delete_Operateur("")
 
-# usine.insert_Operateur("Anis","Anis@gmail.com")
-# usine.insert_Operateur("Walid","Walid@gmail.com")
+# OPÉRATEURS
+usine.insert_Operateur("Walid", "23186@ecam.be")
+usine.insert_Operateur("Anis", "23076@ecam.be")
 
-# usine.insert_Machine("Four",20,2000,2)
-# usine.insert_Machine("Mixeur", 10,500,1)
-# usine.insert_Machine("Micro_onde",15,1500,1)
-# usine.insert_Machine("Cuiseur",30,1000,2)
+# Récupérer les vrais IDs générés
+operateurs = usine.select_Operateur("")
+id_walid = operateurs[0][0]
+id_anis = operateurs[1][0]
 
-# usine.insert_Produit("Soupe")
-# usine.insert_Produit("Biscuit")
-# usine.insert_Produit("Pain")
-# usine.insert_Produit("Sauce")
+# MACHINES
+usine.insert_Machine("Fraiseuse CNC", 45, 15000, id_walid)
+usine.insert_Machine("Tour",          30,  8000, id_walid)
+usine.insert_Machine("Soudure",       20,  5000, id_anis)
+usine.insert_Machine("Ponceuse",      15,  1500, id_anis)
 
-# # Soupe (produit 1)
-# usine.insert_Process(4, 1, 1)
-# usine.insert_Process(1, 1, 2)
+# Récupérer les vrais IDs des machines
+machines = usine.select_Machine("")
+id_fraiseuse = machines[0][0]
+id_tour      = machines[1][0]
+id_soudure   = machines[2][0]
+id_ponceuse  = machines[3][0]
 
-# # Biscuit (produit 2)
-# usine.insert_Process(1, 2, 1)
-# usine.insert_Process(2, 2, 2)
-# usine.insert_Process(3, 2, 3)
+# PRODUITS
+usine.insert_Produit("Engrenage")
+usine.insert_Produit("Arbre de transmission")
+usine.insert_Produit("Chassis soude")
+usine.insert_Produit("Piston")
 
-# # Pain (produit 3)
-# usine.insert_Process(1, 3, 1)
-# usine.insert_Process(2, 3, 2)
+# Récupérer les vrais IDs des produits
+produits = usine.select_Produit("")
+id_engrenage = produits[0][0]
+id_arbre     = produits[1][0]
+id_chassis   = produits[2][0]
+id_piston    = produits[3][0]
 
-# # Sauce (produit 4)
-# usine.insert_Process(4, 4, 1)
-# usine.insert_Process(1, 4, 2)
+# PROCESS
+# Engrenage : Tour → Fraiseuse CNC → Ponceuse
+usine.insert_Process(id_tour,      id_engrenage, 1)
+usine.insert_Process(id_fraiseuse, id_engrenage, 2)
+usine.insert_Process(id_ponceuse,  id_engrenage, 3)
 
-# # Ajouter des commandes
-# usine.insert_Commande(120.5, "2026-03-15")  # Commande 1
-# usine.insert_Commande(85.0, "2026-03-15")   # Commande 2
+# Arbre de transmission : Tour → Fraiseuse CNC → Ponceuse
+usine.insert_Process(id_tour,      id_arbre, 1)
+usine.insert_Process(id_fraiseuse, id_arbre, 2)
+usine.insert_Process(id_ponceuse,  id_arbre, 3)
 
-# # Planification des produits pour chaque commande
+# Chassis soude : Fraiseuse CNC → Soudure → Ponceuse
+usine.insert_Process(id_fraiseuse, id_chassis, 1)
+usine.insert_Process(id_soudure,   id_chassis, 2)
+usine.insert_Process(id_ponceuse,  id_chassis, 3)
 
-# # Planifier la production de "Soupe" pour la commande 1 à 08:00
-# usine.insert_Planification(1, 1, "2026-03-15 08:00:00")
+# Piston : Tour → Fraiseuse CNC → Ponceuse
+usine.insert_Process(id_tour,      id_piston, 1)
+usine.insert_Process(id_fraiseuse, id_piston, 2)
+usine.insert_Process(id_ponceuse,  id_piston, 3)
 
-# # Planifier la production de "Biscuit" pour la commande 2 à 09:00
-# usine.insert_Planification(2, 2, "2026-03-15 09:00:00")
-
-# # Vérification des données
-# print(usine.select_Operateur(""))
-# print(usine.select_Machine(""))
-# print(usine.select_Produit(""))
-# print(usine.select_Commande(""))
-# print(usine.select_Planification(""))
-
+# VÉRIFICATION
+print("=== Opérateurs ===")
+print(usine.select_Operateur(""))
+print("\n=== Machines ===")
+print(usine.select_Machine(""))
+print("\n=== Produits ===")
+print(usine.select_Produit(""))
+print("\n=== Process ===")
+print(usine.select_Process(""))
