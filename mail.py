@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage  # <-- NOUVEL IMPORT POUR L'IMAGE
 
 # -------------------------------------------------------
 # CONFIGURATION - Mets tes infos ici
@@ -110,3 +111,57 @@ def envoyer_mails_commande(db, produits_commande):
             temps_courant += duree
 
     return mails_envoyes
+
+
+# -------------------------------------------------------
+# NOUVELLE FONCTION : ALERTE PRIX NÉGATIF (GRAPHIQUE)
+# -------------------------------------------------------
+def envoyer_alerte_prix_negatif(destinataire, image_bytes):
+    """
+    Envoie un mail d'alerte contenant le graphique des prix de la journée.
+    """
+    # Utilisation de 'related' pour pouvoir intégrer l'image inline dans le code HTML
+    msg = MIMEMultipart("related")
+    msg["From"] = EMAIL_EXPEDITEUR
+    msg["To"] = destinataire
+    msg["Subject"] = "⚠️ ALERTE : Prix de l'électricité négatifs détectés"
+
+    # Construction du corps du mail en HTML avec la balise img faisant référence au CID
+    corps_html = """
+    <html>
+    <body style="font-family: Arial, sans-serif; color: #333;">
+        <p>Bonjour,</p>
+        <p>Le système automatique a détecté une opportunité pour aujourd'hui : des prix d'électricité <b>négatifs</b> sont prévus.</p>
+        <p>Voici le graphique récapitulatif des prix de la journée (les valeurs négatives sont en rouge) :</p>
+        
+        <br>
+        <img src="cid:graphique_prix" alt="Graphique des prix">
+        <br>
+        
+        <p>Il est fortement conseillé de planifier la production durant ces intervalles pour optimiser les coûts.</p>
+        <p>Cordialement,<br>Le système de gestion d'usine.</p>
+    </body>
+    </html>
+    """
+    
+    # On attache le texte HTML
+    msg_alternative = MIMEMultipart('alternative')
+    msg.attach(msg_alternative)
+    msg_alternative.attach(MIMEText(corps_html, "html"))
+
+    # On prépare et on attache l'image graphique
+    image = MIMEImage(image_bytes, name="graphique_prix.png")
+    image.add_header('Content-ID', '<graphique_prix>') # Fait le lien avec le <img src="cid:... ">
+    image.add_header('Content-Disposition', 'inline', filename='graphique_prix.png')
+    msg.attach(image)
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(EMAIL_EXPEDITEUR, MOT_DE_PASSE)
+            server.send_message(msg)
+        print(f"✅ Alerte graphique envoyée à {destinataire}")
+        return True
+    except Exception as e:
+        print(f"❌ Erreur envoi alerte à {destinataire} : {e}")
+        return False
