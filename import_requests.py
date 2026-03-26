@@ -1,17 +1,3 @@
-# import requests
-
-# # URL de la requête API avec le nouveau token
-# url = "https://web-api.tp.entsoe.eu/api?securityToken=e409b908-a869-4320-8ad6-b16c27a9c4c8&documentType=A68&processType=A33&in_Domain=10YBE----------2&periodStart=202602100000&periodEnd=202602102300"
-
-# # Faire la requête HTTP
-# response = requests.get(url)
-
-# # Vérifier que la requête a réussi
-# if response.status_code == 200:
-#     print("Données récupérées avec succès")
-#     print(response.text)  # Afficher les données retournées (format XML)
-# else:
-#     print("Erreur lors de la récupération des données", response.status_code)
 
 import pandas as pd
 from entsoe import EntsoePandasClient
