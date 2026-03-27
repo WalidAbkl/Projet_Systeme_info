@@ -1,26 +1,17 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage  # <-- NOUVEL IMPORT POUR L'IMAGE
+from email.mime.image import MIMEImage
 
 # -------------------------------------------------------
-# CONFIGURATION - Mets tes infos ici
+# CONFIGURATION
 # -------------------------------------------------------
-EMAIL_EXPEDITEUR = "walid.abdelk05@gmail.com"   # ← ton Gmail
-MOT_DE_PASSE = "hsoz ynnc kjgr xkqx"       # ← mot de passe d'application
-
+EMAIL_EXPEDITEUR = "walid.abdelk05@gmail.com"
+MOT_DE_PASSE = "hsoz ynnc kjgr xkqx"
 
 def envoyer_mail(destinataire, nom_op, nom_machine, nom_produit, heure_debut, duree):
     """
     Envoie un mail à un opérateur pour lui décrire sa tâche.
-    
-    Args:
-        destinataire : adresse mail de l'opérateur
-        nom_op       : nom de l'opérateur
-        nom_machine  : nom de la machine à utiliser
-        nom_produit  : nom du produit à fabriquer
-        heure_debut  : heure de début de la tâche (format "HH:MM")
-        duree        : durée de la tâche en minutes
     """
     msg = MIMEMultipart()
     msg["From"] = EMAIL_EXPEDITEUR
@@ -55,11 +46,8 @@ Bonne journée !
 
 def envoyer_mails_commande(db, produits_commande):
     """
-    Envoie les mails à tous les opérateurs pour une commande.
-    
-    Args:
-        db               : connexion QtSql à la DB
-        produits_commande: liste de dicts avec id_produit, nom, heure, cout
+    Envoie les mails à tous les opérateurs pour une commande en calculant
+    les horaires séquentiels basés sur la durée spécifique de chaque étape.
     """
     from PyQt6 import QtSql
 
@@ -70,10 +58,10 @@ def envoyer_mails_commande(db, produits_commande):
         heure = produit["heure"]
         nom_produit = produit["nom"]
 
-        # Récupérer les machines et opérateurs du process dans l'ordre
+        # MODIFICATION : On récupère p.duree_cycle au lieu de m.duree_cycle
         query = QtSql.QSqlQuery(db)
         query.prepare("""
-            SELECT m.nom, m.duree_cycle, op.nom, op.mail, p.sequence
+            SELECT m.nom, p.duree_cycle, op.nom, op.mail, p.sequence
             FROM Process p
             JOIN Machine m ON p.id_machine = m.id_machine
             JOIN Operateur op ON m.id_operateur = op.id_operateur
@@ -85,14 +73,15 @@ def envoyer_mails_commande(db, produits_commande):
 
         # Calculer les heures de départ de chaque étape
         h, m = map(int, heure.split(":"))
-        temps_courant = h * 60 + m  # en minutes depuis minuit
+        temps_courant = h * 60 + m  # minutes depuis minuit
 
         while query.next():
             nom_machine = query.value(0)
-            duree = query.value(1)
+            duree = query.value(1) # Durée spécifique au produit sur cette machine
             nom_op = query.value(2)
             mail_op = query.value(3)
 
+            # Formatage de l'heure de début pour cet opérateur
             heure_debut = f"{temps_courant // 60:02d}:{temps_courant % 60:02d}"
 
             succes = envoyer_mail(
@@ -107,51 +96,42 @@ def envoyer_mails_commande(db, produits_commande):
             if succes:
                 mails_envoyes += 1
 
-            # Avancer le temps pour la prochaine étape
+            # Avancer le temps pour la prochaine étape de la séquence
             temps_courant += duree
 
     return mails_envoyes
 
 
-# -------------------------------------------------------
-# NOUVELLE FONCTION : ALERTE PRIX NÉGATIF (GRAPHIQUE)
-# -------------------------------------------------------
 def envoyer_alerte_prix_negatif(destinataire, image_bytes):
     """
     Envoie un mail d'alerte contenant le graphique des prix de la journée.
     """
-    # Utilisation de 'related' pour pouvoir intégrer l'image inline dans le code HTML
     msg = MIMEMultipart("related")
     msg["From"] = EMAIL_EXPEDITEUR
     msg["To"] = destinataire
     msg["Subject"] = "⚠️ ALERTE : Prix de l'électricité négatifs détectés"
 
-    # Construction du corps du mail en HTML avec la balise img faisant référence au CID
     corps_html = """
     <html>
     <body style="font-family: Arial, sans-serif; color: #333;">
         <p>Bonjour,</p>
         <p>Le système automatique a détecté une opportunité pour aujourd'hui : des prix d'électricité <b>négatifs</b> sont prévus.</p>
         <p>Voici le graphique récapitulatif des prix de la journée (les valeurs négatives sont en rouge) :</p>
-        
         <br>
         <img src="cid:graphique_prix" alt="Graphique des prix">
         <br>
-        
         <p>Il est fortement conseillé de planifier la production durant ces intervalles pour optimiser les coûts.</p>
         <p>Cordialement,<br>Le système de gestion d'usine.</p>
     </body>
     </html>
     """
     
-    # On attache le texte HTML
     msg_alternative = MIMEMultipart('alternative')
     msg.attach(msg_alternative)
     msg_alternative.attach(MIMEText(corps_html, "html"))
 
-    # On prépare et on attache l'image graphique
     image = MIMEImage(image_bytes, name="graphique_prix.png")
-    image.add_header('Content-ID', '<graphique_prix>') # Fait le lien avec le <img src="cid:... ">
+    image.add_header('Content-ID', '<graphique_prix>')
     image.add_header('Content-Disposition', 'inline', filename='graphique_prix.png')
     msg.attach(image)
 

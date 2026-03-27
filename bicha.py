@@ -1,79 +1,34 @@
 import usine
 
+# 1. RÉGÉNÉRATION
+# Supprime manuellement usine.db avant de lancer ce script !
 usine.createAllTables()
 
-# Vider les tables avant test (ordre important à cause des clés étrangères)
-usine.delete_Consommation("")
-usine.delete_Planification("")
+# Vider les tables
 usine.delete_Process("")
-usine.delete_Commande("")
 usine.delete_Machine("")
-usine.delete_Electricite("")
 usine.delete_Produit("")
 usine.delete_Operateur("")
 
-# OPÉRATEURS
+# 2. OPÉRATEURS
 usine.insert_Operateur("Walid", "23186@ecam.be")
 usine.insert_Operateur("Anis", "23076@ecam.be")
 
-# Récupérer les vrais IDs générés
-operateurs = usine.select_Operateur("")
-id_walid = operateurs[0][0]
-id_anis = operateurs[1][0]
+# 3. MACHINES (3 arguments : Nom, Puissance, ID_Operateur)
+# Plus aucune durée ici ! [cite: 1, 6, 13]
+usine.insert_Machine("Fraiseuse CNC", 15000, 1)
+usine.insert_Machine("Tour", 8000, 1)
 
-# MACHINES
-usine.insert_Machine("Fraiseuse CNC", 45, 15000, id_walid)
-usine.insert_Machine("Tour",          30,  8000, id_walid)
-usine.insert_Machine("Soudure",       20,  5000, id_anis)
-usine.insert_Machine("Ponceuse",      15,  1500, id_anis)
-
-# Récupérer les vrais IDs des machines
-machines = usine.select_Machine("")
-id_fraiseuse = machines[0][0]
-id_tour      = machines[1][0]
-id_soudure   = machines[2][0]
-id_ponceuse  = machines[3][0]
-
-# PRODUITS
+# 4. PRODUITS (1 seul argument : Nom)
+# Le produit n'a plus de durée propre [cite: 1, 12]
 usine.insert_Produit("Engrenage")
-usine.insert_Produit("Arbre de transmission")
-usine.insert_Produit("Chassis soude")
 usine.insert_Produit("Piston")
 
-# Récupérer les vrais IDs des produits
-produits = usine.select_Produit("")
-id_engrenage = produits[0][0]
-id_arbre     = produits[1][0]
-id_chassis   = produits[2][0]
-id_piston    = produits[3][0]
+# 5. PROCESS (4 arguments : id_machine, id_produit, sequence, DUREE)
+# C'est ici que tu définis le temps spécifique 
+# Engrenage sur Tour (Etape 1) pendant 30 min
+usine.insert_Process(2, 1, 1, 30) 
+# Piston sur Tour (Etape 1) pendant 40 min
+usine.insert_Process(2, 2, 1, 40) 
 
-# PROCESS
-# Engrenage : Tour → Fraiseuse CNC → Ponceuse
-usine.insert_Process(id_tour,      id_engrenage, 1)
-usine.insert_Process(id_fraiseuse, id_engrenage, 2)
-usine.insert_Process(id_ponceuse,  id_engrenage, 3)
-
-# Arbre de transmission : Tour → Fraiseuse CNC → Ponceuse
-usine.insert_Process(id_tour,      id_arbre, 1)
-usine.insert_Process(id_fraiseuse, id_arbre, 2)
-usine.insert_Process(id_ponceuse,  id_arbre, 3)
-
-# Chassis soude : Fraiseuse CNC → Soudure → Ponceuse
-usine.insert_Process(id_fraiseuse, id_chassis, 1)
-usine.insert_Process(id_soudure,   id_chassis, 2)
-usine.insert_Process(id_ponceuse,  id_chassis, 3)
-
-# Piston : Tour → Fraiseuse CNC → Ponceuse
-usine.insert_Process(id_tour,      id_piston, 1)
-usine.insert_Process(id_fraiseuse, id_piston, 2)
-usine.insert_Process(id_ponceuse,  id_piston, 3)
-
-# VÉRIFICATION
-print("=== Opérateurs ===")
-print(usine.select_Operateur(""))
-print("\n=== Machines ===")
-print(usine.select_Machine(""))
-print("\n=== Produits ===")
-print(usine.select_Produit(""))
-print("\n=== Process ===")
-print(usine.select_Process(""))
+print("✅ Base de données initialisée avec succès !")

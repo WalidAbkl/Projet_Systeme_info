@@ -143,17 +143,6 @@
                                 {
                                         "Auto": false,
                                         "PK": false,
-                                        "FieldName": "duree_cycle",
-                                        "FieldType": "INTEGER",
-                                        "FieldLength": "",
-                                        "Unique": false,
-                                        "NotNull": true,
-                                        "FKTable": "",
-                                        "FKField": ""
-                                },
-                                {
-                                        "Auto": false,
-                                        "PK": false,
                                         "FieldName": "puissance",
                                         "FieldType": "REAL",
                                         "FieldLength": "",
@@ -172,6 +161,17 @@
                                         "NotNull": true,
                                         "FKTable": "Operateur",
                                         "FKField": "id_operateur"
+                                },
+                                {
+                                        "Auto": false,
+                                        "PK": false,
+                                        "FieldName": "",
+                                        "FieldType": "INTEGER",
+                                        "FieldLength": "",
+                                        "Unique": false,
+                                        "NotNull": true,
+                                        "FKTable": "",
+                                        "FKField": ""
                                 },
                                 {
                                         "Auto": false,
@@ -261,7 +261,7 @@
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
@@ -393,11 +393,11 @@
                                 {
                                         "Auto": false,
                                         "PK": false,
-                                        "FieldName": "",
+                                        "FieldName": "uree_cycle",
                                         "FieldType": "INTEGER",
                                         "FieldLength": "",
                                         "Unique": false,
-                                        "NotNull": false,
+                                        "NotNull": true,
                                         "FKTable": "",
                                         "FKField": ""
                                 },
